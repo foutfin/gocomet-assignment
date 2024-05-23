@@ -1,0 +1,79 @@
+.cards-container{
+    margin-top:40px;
+    display: flex;
+    flex-direction: column;
+    gap:40px;
+    
+}
+.card-container{
+    /* border:2px solid black; */
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    padding:15px 20px;
+    border-radius: 5px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.card-container > div{
+    display: flex;
+    margin-top: 10px;
+    
+}
+.card-membertag > span{
+    font-size:12px;
+}
+.card-status-icon{
+    width:12px;
+    height:12px;
+    /* border:1px solid red; */
+}
+
+.card-status-container{
+    display: flex;
+    align-items: center;
+    gap:3px;
+    margin-left:auto;
+}
+
+.card-title{
+    font-weight:500;
+}
+
+.card-detail-conatiner{
+    display: flex;
+    gap:5px;
+    align-items: center;
+}
+.card-detail-conatiner > div{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-detail-conatiner > img{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+}
+.card-creator-name{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.card-blog-detail{
+    font-size: 12px;
+    
+}
+
+
+.card-status-text{
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.card-link{
+    font-size:14px;
+    text-decoration: underline;
+    opacity: 0.9;
+    font-weight: 600;
+    color: rgb(70, 68, 68);
+}

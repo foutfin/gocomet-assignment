@@ -1,0 +1,11 @@
+.result-container{
+    margin-top:50px;
+    padding:5px 10px;
+    max-width: 600px;
+    margin-inline: auto;
+}
+
+.result-controls{
+    display: flex;
+    justify-content: space-between;
+}

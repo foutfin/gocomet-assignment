@@ -1,8 +1,18 @@
 from django.http import JsonResponse
-from scrap.mainscrapper import MainScrapper
-from scrapper.models import ScrapRequest,Blog
+from scrapper.mainscrapper import MainScrapper
+from tagscrapper.models import ScrapRequest,Blog
 from django.middleware.csrf import get_token
 import json
+from django.shortcuts import render
+
+def indexview(request):
+    return render(request , 'index.html')
+
+def blogview(request,blogid):
+    return render(request , 'index.html')
+
+def searchview(request,tag):
+    return render(request , 'index.html')
 
 def tag_scrap_view(request):
     if request.method == "POST":
