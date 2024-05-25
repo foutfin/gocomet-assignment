@@ -10,6 +10,8 @@ urlpatterns = [
     path('search/<str:tag>/', view.searchview),
     path('login/',view.indexview),
     path('signup/',view.indexview),
+    path('history/',view.indexview),
+    path('search/<str:tag>/', view.searchview),
 
 
     path('auth/signup/', accountViews.signUp),
@@ -20,6 +22,8 @@ urlpatterns = [
     path('tag/',view.tag_scrap_view),
     path('api/status/<int:queueid>/',view.get_scrap_request_status_view),
     path('api/blog/<str:blogid>/',view.get_blog_view),
-    path('api/blogsmall/<str:blogid>/',view.get_blog_small_view)
+    path('api/blogsmall/<str:blogid>/',view.get_blog_small_view),
+    path('api/suggestion/',view.get_suggestion_view),
+    path('api/history/',view.get_search_history_view)
     
 ]
