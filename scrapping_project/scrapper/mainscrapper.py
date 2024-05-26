@@ -103,7 +103,6 @@ class MainScrapper:
     def __scrapBlogs__(self,blogs):
         for blog in blogs: 
             blog.scrap()
-            print(blog.getBlogUrl())
         
 
 

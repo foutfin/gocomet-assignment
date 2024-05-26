@@ -2,15 +2,21 @@ import { SearchError } from "../enum"
 import {  useState } from "react"
 import './search.css'
 import { SearchProp } from "../types"
+// import { BigLogo } from "./Navbar"
+import { useNavigate } from "react-router-dom"
 import { BigLogo } from "./Navbar"
+import { getSuggestion } from "../api"
+import Tag from "./Tag"
  
 
 const base_url = import .meta.env.VITE_BASE_URL 
 
 function Search({setTag,setReult,setResultView}:SearchProp){
+    const navigate = useNavigate();
     const [ search , setSearch] = useState<string>()
     const [loading , setLoading] = useState<boolean>(false)
     const [error , setError] = useState<SearchError>(SearchError.noerror)
+    const [ suggestion ,setSuggestion ] = useState<Array<string>>([])
 
     const handleScrap = async () => {
         if (!search){
@@ -22,14 +28,25 @@ function Search({setTag,setReult,setResultView}:SearchProp){
             const response = await fetch(url,{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',               
+                    'Content-Type': 'application/json', 
+                    credentials:'include'              
                 },
-                body: JSON.stringify({tag: search, after: ''})
+                body: JSON.stringify({tag: search, after: ''}),
+                
             })
             if(response.status == 200){
                 const data = await response.json()
                 if(data.blogs.length == 0){
-                    setError(SearchError.nothingfound)
+                    const tags = await getSuggestion(search)
+                    if(tags == null){
+                        setError(SearchError.failed)
+                    }else if(tags.length == 0){
+                        setError(SearchError.nothingfound)
+                    }else{
+                        setError(SearchError.suggestion)
+                        setSuggestion(tags)
+                    }
+                    
                 }else{
                     setReult(data)
                     setTag(search)
@@ -64,7 +81,17 @@ function Search({setTag,setReult,setResultView}:SearchProp){
             :<div className="search-info-container">
                 { error == SearchError.failed && <span>Something Went Wronge</span> }
                 { error == SearchError.nothingfound && <span>No Result Found</span> }
-                <button onClick={handleScrap} className="scrap-button">Scrap</button>
+                { error == SearchError.suggestion &&  <div className="search-suggestion-container">
+                    <span>Suggested Tags: </span>
+                    <div className="search-suggestions-tags">
+                        { suggestion.map(s => <Tag tag={s}/>)}
+                    </div>
+                    </div>}
+                <div >
+                    <button onClick={()=>navigate("/history")} className="scrap-button">History</button>
+                    <button onClick={handleScrap} className="scrap-button">Scrap</button>
+                </div>
+                
             </div>
             
         }

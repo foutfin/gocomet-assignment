@@ -32,8 +32,8 @@ interface SearchProp{
     setTag : React.Dispatch<React.SetStateAction<string>>
 }
 interface ResultProp{
-    result: Data
-    setResultView : React.Dispatch<React.SetStateAction<boolean>>
+    result?: Data
+    setResultView? : React.Dispatch<React.SetStateAction<boolean>>
     tag: string
 }
 

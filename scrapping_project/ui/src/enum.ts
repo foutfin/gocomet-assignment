@@ -1,7 +1,8 @@
 enum SearchError{
     failed,
     nothingfound,
-    noerror
+    noerror,
+    suggestion
 }
 
 enum cardStatus{

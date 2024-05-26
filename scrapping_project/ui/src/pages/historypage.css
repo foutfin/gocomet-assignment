@@ -1,0 +1,12 @@
+.historypage-container{
+    padding: 10px 10px;
+    max-width:600px;
+    margin:auto;
+    margin-top: 30px;
+}
+
+.histroy-tags-container{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}

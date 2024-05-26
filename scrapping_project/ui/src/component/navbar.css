@@ -1,0 +1,43 @@
+.profile-container{
+    margin-left:auto;
+
+    position: relative;
+}
+
+.profile-container > div{
+
+    display: flex;
+    gap:5px;
+    align-items: center;
+    cursor: pointer;
+
+}
+.navbar-container{
+    padding: 10px 20px;
+    display: flex;
+    position: relative;
+}
+
+.profile-options{
+    position: absolute;
+    background-color: antiquewhite;
+    bottom: 0;
+    transform: translateY(120%);
+    width:100px;
+    right:-10px;
+}
+
+.profile-options > button{
+    padding: 5px 10px ;
+    background-color: transparent;
+    border: 0;
+    width: 100%;
+}
+
+.full-overlay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    height: 100vh;
+}

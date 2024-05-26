@@ -4,6 +4,8 @@ from tagscrapper.models import ScrapRequest,Blog
 from django.middleware.csrf import get_token
 import json
 from django.shortcuts import render
+from django.db.utils import IntegrityError
+from tagscrapper.models import Tag ,History ,ScrapRequest,Blog
 
 def indexview(request):
     return render(request , 'index.html')
@@ -18,17 +20,17 @@ def tag_scrap_view(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
             return JsonResponse({ 'error': 'not authorised' },status=401)
-        try:
-            data = json.loads(request.body)
-            tag = data['tag']
-            after = "" if "after" not in data else data["after"]
+        # try:
+        data = json.loads(request.body)
+        tag = data['tag']
+        after = "" if "after" not in data else data["after"]
 
-            saveHistroy(request.user,tag)
+        saveHistroy(request.user,tag)
 
-            s = MainScrapper(tag)
-            return JsonResponse(s.fetch(after=after),safe=False)
-        except:
-            return JsonResponse({ 'error': 'bad request' },status=400)
+        s = MainScrapper(tag)
+        return JsonResponse(s.fetch(after=after),safe=False)
+        # except:
+        #     return JsonResponse({ 'error': 'bad request' },status=400)
 
     return JsonResponse({ 'error': 'unsupported method' },status=405)
 

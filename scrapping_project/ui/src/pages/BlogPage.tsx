@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { Navbar } from "../component/Navbar"
 import { useEffect, useState } from "react"
 import "./blogpage.css"
@@ -18,7 +18,7 @@ function BlogPage(){
     useEffect(()=>{
         document.title = 'Scrap.me';
         async function getBlogData(){
-            const url = `${base_url}/api/blog/${id}`
+            const url = `${base_url}/api/blog/${id}/`
             try{
                 const response = await fetch(url)
                 if(response.status == 200){
@@ -41,7 +41,7 @@ function BlogPage(){
         
     },[])
     return(<div>
-        <Navbar/>
+        <Navbar logo={true}/>
         {loading ? 
             <div style={{marginInline:"auto",marginTop:"200px"}} className="loader"></div>
         :
@@ -82,7 +82,11 @@ function BlogPage(){
 }
 
 function Tag({tag}:{tag:string}){
-    return(<span className="tag">{tag}</span>)
+    return(
+        <Link className="card-link" to={`/search/${tag}`} target="_blank" rel="noopener noreferrer" > 
+                <span className="tag">{tag}</span>
+            </Link>
+    )
 }
 
 export default BlogPage
