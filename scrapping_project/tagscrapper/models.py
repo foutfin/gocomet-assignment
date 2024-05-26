@@ -32,6 +32,16 @@ class ScrapRequest(models.Model):
     blog_id = models.CharField(max_length=30)
     status = models.CharField(max_length=20,choices=RequestStaus.choices , default=RequestStaus.PENDING)
 
+class Reply(models.Model):
+    reply_id = models.CharField(max_length=32)
+    body = models.TextField()
+    first_published_at = models.IntegerField()
+    last_published_at = models.IntegerField()
+    clap = models.IntegerField()
+    creator_name = models.CharField(max_length=255)
+    creator_img = models.CharField(max_length=255)
+    parent_reply_id = models.CharField(max_length=32)
+
 
 
 

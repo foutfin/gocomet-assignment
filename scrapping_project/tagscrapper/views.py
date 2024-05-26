@@ -5,7 +5,7 @@ from django.middleware.csrf import get_token
 import json
 from django.shortcuts import render
 from django.db.utils import IntegrityError
-from tagscrapper.models import Tag ,History ,ScrapRequest,Blog
+from tagscrapper.models import Tag ,History ,ScrapRequest,Blog,Reply
 
 def indexview(request):
     return render(request , 'index.html')
@@ -20,17 +20,17 @@ def tag_scrap_view(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
             return JsonResponse({ 'error': 'not authorised' },status=401)
-        # try:
-        data = json.loads(request.body)
-        tag = data['tag']
-        after = "" if "after" not in data else data["after"]
+        try:
+            data = json.loads(request.body)
+            tag = data['tag']
+            after = "" if "after" not in data else data["after"]
 
-        saveHistroy(request.user,tag)
+            saveHistroy(request.user,tag)
 
-        s = MainScrapper(tag)
-        return JsonResponse(s.fetch(after=after),safe=False)
-        # except:
-        #     return JsonResponse({ 'error': 'bad request' },status=400)
+            s = MainScrapper(tag)
+            return JsonResponse(s.fetch(after=after),safe=False)
+        except:
+            return JsonResponse({ 'error': 'bad request' },status=400)
 
     return JsonResponse({ 'error': 'unsupported method' },status=405)
 
@@ -128,6 +128,20 @@ def get_blog_small_view(request,blogid):
                     },
 
                 })
+            except Blog.DoesNotExist:
+                return JsonResponse({ "error":"not exist"})
+        except:
+            return JsonResponse({ 'error': 'bad request' },status=400)
+    return JsonResponse({ 'error': 'unsupported method' },status=405)
+def get_reply_view(request,replyid):
+    if request.method == "GET":
+        try:
+            try:
+                b = Reply.objects.filter(parent_reply_id=replyid)
+                replies = []
+                for r in b:
+                    replies.append({"name":r.creator_name,"img":r.creator_img,"body":r.body,"last":r.last_published_at})
+                return JsonResponse({ "data": replies})
             except Blog.DoesNotExist:
                 return JsonResponse({ "error":"not exist"})
         except:

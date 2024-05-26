@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/blog/<str:blogid>/',view.get_blog_view),
     path('api/blogsmall/<str:blogid>/',view.get_blog_small_view),
     path('api/suggestion/',view.get_suggestion_view),
-    path('api/history/',view.get_search_history_view)
+    path('api/history/',view.get_search_history_view),
+    path('api/reply/<str:replyid>',view.get_reply_view)
     
 ]

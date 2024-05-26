@@ -4,16 +4,26 @@ import { useEffect, useState } from "react"
 import "./blogpage.css"
 import { BlogError } from "../enum"
 import { BlogFull } from "../types"
+import { getReply } from "../api"
 
 
 
 const base_url = import .meta.env.VITE_BASE_URL 
 
+interface ReplyData{
+    name : string 
+    img : string 
+    body : string 
+    last : string     
+}
+
+
 function BlogPage(){
     const [loading , setLoading] = useState<boolean>(true)
     const [ blogData , setBlogData] = useState<BlogFull>()
     const [error , setError] = useState<BlogError>(BlogError.nothing)
-
+    const [replies , setReplies] = useState<Array<ReplyData>>([])
+    console.log(setReplies)
     const {id} = useParams()
     useEffect(()=>{
         document.title = 'Scrap.me';
@@ -27,6 +37,8 @@ function BlogPage(){
                         setError(BlogError.notfound)
                     }else{
                         setBlogData(data) 
+                        const reply = await getReply(`${id}`)
+                        console.log(reply)
                         document.title = data.title;
                     }
                       
@@ -74,11 +86,37 @@ function BlogPage(){
                     <div className="tags-container">
                         { blogData.tags.map(tag => <Tag tag={tag}/>)}
                     </div>
+                    <a href={`https://blog.medium.com/${blogData.title.replace(" ","-")}-${blogData.id}`} target="_blank" >Go To Main Medium.com blog</a>
+
+                    <div className="reply-container">
+                        { replies.length > 0 &&
+                        <>
+                        <h3>Responses</h3>
+                        <Reply name={""} img={""} body={""} />
+                        {replies.map(r => <Reply name={r.name} img={r.img} body={r.body} />)}
+                        </>
+
+                        }
+                        
+                    </div>
                 </div>}
             </div>
          
         }
     </div>)
+}
+
+function Reply({name,img, body}:{name:string , img:string , body:string}){
+    console.log(name , img,body)
+    return(
+        <div className="reply-container">
+            <div className="replyimg-container">
+                <img src={`https://miro.medium.com/v2/resize:fit:679/${img}.png`} />
+                <span>{name}</span>
+            </div>
+            <span>{body}</span>
+        </div>
+    )
 }
 
 function Tag({tag}:{tag:string}){

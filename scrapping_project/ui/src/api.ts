@@ -73,6 +73,29 @@ const getSuggestion = async (tag:string) =>{
     }
 }
 
+const getReply = async (id:string) =>{
+    const url = `${base_url}/api/reply/${id}`
+    try{
+        const response = await fetch(url,{
+            method: 'GET',
+            credentials:'include',
+        })
+        if(response.status == 200){
+            const data = await response.json()
+            if( data.hasOwnProperty("error")){
+                return null
+            }else{
+                return data.data
+            }
+               
+        }else{
+            return null
+        }
+    }catch{
+        return null
+    }
+}
 
 
-export {getAccountInfo,getHistory,getSuggestion}
+
+export {getAccountInfo,getHistory,getSuggestion,getReply}

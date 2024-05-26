@@ -62,6 +62,9 @@ function Card({id,title,queue_id}:{id:string,title:string,queue_id:number}){
             setStatus(cardStatus.failed)
         }
         intervalId = setInterval(tickStatus,1000)
+        return ()=>{
+            clearInterval(intervalId)
+        }
     },[])
 
     return (
@@ -73,7 +76,7 @@ function Card({id,title,queue_id}:{id:string,title:string,queue_id:number}){
                     </div>}
         <span className="card-title">{title}</span>
         {   status == cardStatus.success && 
-            <Link className="card-link" to={`blog/${id}`} target="_blank" rel="noopener noreferrer" > 
+            <Link className="card-link" to={`/blog/${id}`} target="_blank" rel="noopener noreferrer" > 
                 Go to Blog
             </Link>
         }
