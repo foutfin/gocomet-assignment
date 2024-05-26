@@ -16,8 +16,6 @@
           name = "your_package";
           nativeBuildInputs = [ pkgs.bashInteractive ];
           buildInputs = with pythonPackages; [
-            pkgs.nodePackages.pyright
-            pkgs.poetry
             setuptools
             wheel
             venvShellHook
