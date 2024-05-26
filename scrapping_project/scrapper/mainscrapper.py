@@ -82,22 +82,26 @@ class MainScrapper:
     def fetch(self,limit = 10,after = "" ):
         self.body[0]["variables"]["after"] = after
         self.body[0]["variables"]["first"] = limit
-        self.body[0]["variables"]["tagSlug"] = self.tag
+        self.body[0]["variables"]["tagSlug"] = self.tag.replace(" ","-")
         res_json = requests.post(self.base_url,json= self.body).json()
         response = {
             "blogs":[],
-            "pageInfo":res_json[0]["data"]["tagFromSlug"]["sortedFeed"]["pageInfo"]
         }
-        blogs = []
-        for r  in res_json[0]["data"]["tagFromSlug"]["sortedFeed"]["edges"]:
-            blog_id = r["node"]["id"]
-            title = r["node"]["title"]
-            sr = ScrapRequest.objects.create(blog_id=blog_id)
-            blogs.append(ScrapBlog(blog_id,title,sr.id))
-            response["blogs"].append({"id":blog_id,"title":title,"queue_id":sr.id})
         
-        t = threading.Thread(target=self.__scrapBlogs__, args=(blogs,))
-        t.start()
+        if res_json[0]["data"]["tagFromSlug"] == None:
+            response["pageInfo"] = {"hasNextPage":False , "endCursor":""}
+        else:
+            response["pageInfo"]= res_json[0]["data"]["tagFromSlug"]["sortedFeed"]["pageInfo"]
+            blogs = []
+            for r  in res_json[0]["data"]["tagFromSlug"]["sortedFeed"]["edges"]:
+                blog_id = r["node"]["id"]
+                title = r["node"]["title"]
+                sr = ScrapRequest.objects.create(blog_id=blog_id)
+                blogs.append(ScrapBlog(blog_id,title,sr.id))
+                response["blogs"].append({"id":blog_id,"title":title,"queue_id":sr.id})
+            
+            t = threading.Thread(target=self.__scrapBlogs__, args=(blogs,))
+            t.start()
         return response
 
     def __scrapBlogs__(self,blogs):
