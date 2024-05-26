@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import './card.css'
 import  {BlogSmall  } from "../types"
@@ -10,6 +10,8 @@ const base_url = import .meta.env.VITE_BASE_URL
 function Card({id,title,queue_id}:{id:string,title:string,queue_id:number}){
     const [status , setStatus] = useState<cardStatus>(cardStatus.pending)
     const [ blogData , setBlogData] = useState<BlogSmall>()
+    const start = useRef(Date.now())
+    const end = useRef(Date.now())
 
     async function getBlogData(){
         const url = `${base_url}/api/blogsmall/${id}`
@@ -94,10 +96,11 @@ function Card({id,title,queue_id}:{id:string,title:string,queue_id:number}){
                 
             </div>
             <div className="card-status-container">
-                    { status == cardStatus.pending && <PendingState/> }
+            { status == cardStatus.pending && <PendingState/> }
                     { status == cardStatus.success && <SuccessState/> }
                     { status == cardStatus.crawling && <CrawlingState/> }
                     { status == cardStatus.failed && <FailedState/> }
+                    { (status == cardStatus.success || status == cardStatus.failed)  && <span style={{fontSize:"12px",marginLeft:"3px" }}>{Math.floor((end.current -start.current)/1000)} s</span> } 
             </div>
         </div>
 
