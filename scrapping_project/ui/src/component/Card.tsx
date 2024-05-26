@@ -46,11 +46,13 @@ function Card({id,title,queue_id}:{id:string,title:string,queue_id:number}){
                     case "success":
                         setStatus(cardStatus.success)
                         clearInterval(intervalId)
+                        end.current = Date.now()
                         getBlogData()
                       break;
                     case "failed":
                         setStatus(cardStatus.failed)
                         clearInterval(intervalId)
+                        end.current = Date.now()
                         break;
                     case "not":
                             setStatus(cardStatus.failed)
