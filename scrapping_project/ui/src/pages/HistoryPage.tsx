@@ -31,7 +31,7 @@ function HistoryPage(){
 
     return(
         <div className="historypage-container">
-            <h1>Search Results</h1>
+            <h1>Search History</h1>
             {loading ? 
                 <div style={{marginInline:"auto",marginTop:"200px"}} className="loader"></div>
             :

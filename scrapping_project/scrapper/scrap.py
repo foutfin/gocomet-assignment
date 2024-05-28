@@ -39,9 +39,7 @@ class ScrapBlog:
         blog = self.__scrapBlog__(soup)
         isMemberOnly = self.__scrapIsMemberOnly__(soup)
         creator = self.__saveCreator__(self.__scrapAuthorName__(soup),self.__scrapAuthorImgUrl__(soup))
-        
-        print(blog,detail,isMemberOnly)
-        
+
         b  = Blog.objects.create(
             blog_id=self.blog_id,
             title=self.title,
