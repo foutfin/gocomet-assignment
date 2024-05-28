@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 from scrapper.mainscrapper import MainScrapper
 from tagscrapper.models import ScrapRequest,Blog
-from django.middleware.csrf import get_token
 import json
 from django.shortcuts import render
 from django.db.utils import IntegrityError
